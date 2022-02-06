@@ -1,34 +1,51 @@
 package pl.edu.agh.hangman;
 
+import java.util.List;
+
 public class Hang {
 
-
-    private String word = words[(int) (Math.random() * words.length)];
-    private String asterisk = new String(new char[word.length()]).replace("\0", "*");
     private int count = 0;
 
-    public void hang(String guess) {
-        String newasterisk = "";
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == guess.charAt(0)) {
-                newasterisk += guess.charAt(0);
-            } else if (asterisk.charAt(i) != '*') {
-                newasterisk += word.charAt(i);
+    private boolean success = false;
+    public void hang() {
+        Words words = new Words("slowa.txt");
+        List<String> wordsList = words.getWords();
+
+        String word = wordsList.get((int) (Math.random() * wordsList.size()));
+        String asterisk = new String(new char[word.length()]).replace("\0", "*");
+
+
+        System.out.println(word);
+        while (count < 7 && success != true) {
+            GuessWord guessWord = new GuessWord();
+            String guess = guessWord.askForLetter2();
+
+            String newasterisk = "";
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == guess.charAt(0)) {
+                    newasterisk += guess.charAt(0);
+                } else if (asterisk.charAt(i) != '*') {
+                    newasterisk += word.charAt(i);
+                } else {
+                    newasterisk += "*";
+                }
+            }
+
+            if (asterisk.equals(newasterisk)) {
+                count++;
+                hangmanImage();
+                System.out.println("Current game state "+ asterisk);
             } else {
-                newasterisk += "*";
+                asterisk = newasterisk;
+                System.out.println("Correct " + asterisk + " is included in searched word");
+            }
+            if (asterisk.equals(word)) {
+                System.out.println("Correct! You win! The word was " + word);
+                success = true;
             }
         }
-
-        if (asterisk.equals(newasterisk)) {
-            count++;
-            hangmanImage();
-        } else {
-            asterisk = newasterisk;
-        }
-        if (asterisk.equals(word)) {
-            System.out.println("Correct! You win! The word was " + word);
-        }
     }
+
 
     public void hangmanImage() {
         if (count == 1) {
