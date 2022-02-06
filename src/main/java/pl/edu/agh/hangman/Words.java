@@ -12,15 +12,16 @@ public class Words {
     List<String> words;
 
 
-    public Words() {
+    public Words(String filename) {
         words = new ArrayList<>();
+        readFromFile(filename);
     }
 
     public List<String> getWords(){
         return words;
     }
 
-    public void readFromFile(String filename){
+    private void readFromFile(String filename){
 
         File file = getFile(filename);
 
@@ -44,8 +45,6 @@ public class Words {
             throw new IllegalArgumentException("file not found!");
         } else {
 
-            // failed if files have whitespaces or special characters
-            //return new File(resource.getFile());
 
             try {
                 return new File(resource.toURI());

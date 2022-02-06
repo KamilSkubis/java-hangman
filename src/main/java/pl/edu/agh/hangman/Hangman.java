@@ -58,8 +58,7 @@ public class Hangman {
 
     public static void main(String[] args) {
 
-        Words words = new Words();
-        words.readFromFile("slowa.txt");
+        Words words = new Words("slowa.txt");
         List<String> word = words.getWords();
         System.out.println(word);
     }
