@@ -1,5 +1,7 @@
 package pl.edu.agh.hangman;
 
+import java.util.List;
+
 public class Hangman {
 
     public static final String[] HANGMANPICS = new String[]{
@@ -57,6 +59,8 @@ public class Hangman {
     public static void main(String[] args) {
 
         Words words = new Words();
-        words.reachFromFile("slowa.txt");
+        words.readFromFile("slowa.txt");
+        List<String> word = words.getWords();
+        System.out.println(word);
     }
 }
