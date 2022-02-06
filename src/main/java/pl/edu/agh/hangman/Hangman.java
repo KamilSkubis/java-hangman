@@ -55,5 +55,8 @@ public class Hangman {
     };
 
     public static void main(String[] args) {
+
+        Words words = new Words();
+        words.reachFromFile("slowa.txt");
     }
 }
