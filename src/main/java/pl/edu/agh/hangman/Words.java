@@ -1,23 +1,59 @@
 package pl.edu.agh.hangman;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class Words {
 
-    public void reachFromFile(String fileName){
-        try(BufferedReader input = new BufferedReader(new FileReader(fileName))) {
+    List<String> words;
+
+
+    public Words(String filename) {
+        words = new ArrayList<>();
+        readFromFile(filename);
+    }
+
+    public List<String> getWords(){
+        return words;
+    }
+
+    private void readFromFile(String filename){
+
+        File file = getFile(filename);
+
+        try(BufferedReader input = new BufferedReader(new FileReader(file))) {
             while(true) {
                 String line = input.readLine();
-// wynik null oznacza, że to już koniec pliku
                 if(line == null) {
                     break;
                 }
-                System.out.println(line);
+                words.add(line.toUpperCase(Locale.ROOT));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
+    private File getFile(String fileName) {
+        URL resource = getClass().getClassLoader().getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found!");
+        } else {
+
+
+            try {
+                return new File(resource.toURI());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+
 }
